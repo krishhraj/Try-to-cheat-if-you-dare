@@ -1,0 +1,85 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+env/
+ENV/
+cheat_detection_env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+
+# Environment variables
+.env
+.env.local
+
+# Models and Data
+models/*.pth
+models/*.pt
+models/*.onnx
+data/raw/
+data/processed/
+*.pkl
+*.joblib
+
+# Logs
+logs/
+*.log
+backend.log
+frontend.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node modules (for frontend)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+frontend/build/
+frontend/dist/
+
+# Browser extension builds
+browser-extension/*/build/
+browser-extension/*/dist/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Demo files
+demo_results.jpg
+test_*.jpg
+test_*.png
+test_*.mp4
+cheat_attempts/

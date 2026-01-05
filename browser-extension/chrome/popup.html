@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            width: 320px;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 18px;
+            margin: 0;
+            color: white;
+        }
+        
+        .challenge {
+            font-size: 12px;
+            opacity: 0.9;
+            font-style: italic;
+        }
+        
+        .status {
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .status.active {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .status.inactive {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        button {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-primary {
+            background: rgba(255, 255, 255, 0.9);
+            color: #667eea;
+        }
+        
+        .btn-primary:hover {
+            background: white;
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .results {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            font-size: 12px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .detection-item {
+            padding: 8px;
+            margin: 8px 0;
+            border-left: 3px solid #51cf66;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        
+        .detection-item.cheating {
+            border-left-color: #ff6b6b;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+            font-size: 12px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 16px;
+            font-weight: bold;
+            display: block;
+        }
+        
+        .settings {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 12px;
+        }
+        
+        input[type="range"] {
+            width: 80px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 10px;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎯 Try-to-cheat-if-you-dare</h1>
+        <div class="challenge">Think you can fool our AI?</div>
+    </div>
+    
+    <div id="status" class="status inactive">
+        Status: Inactive
+    </div>
+    
+    <div class="stats">
+        <div class="stat-item">
+            <span class="stat-number" id="totalAttempts">0</span>
+            <span>Attempts</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number" id="caughtCheats">0</span>
+            <span>Caught</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number" id="successRate">0%</span>
+            <span>Rate</span>
+        </div>
+    </div>
+    
+    <div class="controls">
+        <button id="toggleBtn" class="btn-primary">Start Detection</button>
+        <button id="scanBtn" class="btn-secondary">Scan Current Page</button>
+    </div>
+    
+    <div id="results" class="results" style="display: none;">
+        <h3>Detection Results</h3>
+        <div id="resultsList"></div>
+    </div>
+    
+    <div class="settings">
+        <h3>Settings</h3>
+        <div class="setting-item">
+            <label>Sensitivity:</label>
+            <div>
+                <input type="range" id="sensitivity" min="0.1" max="1.0" step="0.1" value="0.6">
+                <span id="sensitivityValue">0.6</span>
+            </div>
+        </div>
+        <div class="setting-item">
+            <label>Auto-scan:</label>
+            <input type="checkbox" id="autoScan">
+        </div>
+    </div>
+    
+    <div class="footer">
+        Ready to catch cheaters! 👀
+    </div>
+    
+    <script src="popup.js"></script>
+</body>
+</html>

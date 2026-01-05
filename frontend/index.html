@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Try to cheat if you dare</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #bbd2c5 0%, #536976 100%);
+            min-height: 100vh;
+            color: #536976;
+        }
+
+        .header {
+            background: #a1b7ab;
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-family: 'Gyst variable';
+            font-size: 28px;
+            font-weight: bold;
+            color: #3f3f31;
+            text-decoration: none;
+        }
+
+        .challenge-text {
+            font-family: 'chalkduster';
+            font-size: 16px;
+            color: #666;
+            font-style: italic;
+        }
+
+        .container {
+            font-family: 'Times New Roman', Times, serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            color: #3f3f31;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 50px;
+            color: #3f3f31;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .stats-bar {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-around;
+            color: #3f3f31;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 5px;
+            margin-bottom: 30px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 15px 20px;
+            text-align: center;
+            background: transparent;
+            border: none;
+            color: #000;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .tab.active {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .tab-content {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .camera-section {
+            text-align: center;
+        }
+
+        .video-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 30px;
+        }
+
+        #videoElement {
+            width: 100%;
+            max-width: 640px;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .detection-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .face-box {
+            position: absolute;
+            border: 3px solid #00ff00;
+            border-radius: 5px;
+            background: rgba(0, 255, 0, 0.1);
+        }
+
+        .face-box.cheating {
+            border-color: #ff0000;
+            background: rgba(255, 0, 0, 0.1);
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, #00d2d3, #54a0ff);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 210, 211, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .results {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+
+        .result-item {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 5px solid #667eea;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-item.cheating {
+            border-left-color: #ff6b6b;
+            background: #fff5f5;
+        }
+
+        .result-item.real {
+            border-left-color: #51cf66;
+            background: #f8fff8;
+        }
+
+        .confidence-bar {
+            width: 100%;
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #51cf66, #ffd43b, #ff6b6b);
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+
+        .upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 15px;
+            padding: 60px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .upload-area:hover {
+            border-color: #764ba2;
+            background: #e9ecef;
+        }
+
+        .upload-area.dragover {
+            border-color: #51cf66;
+            background: #f8fff8;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-online {
+            background: #51cf66;
+            animation: pulse 2s infinite;
+        }
+
+        .status-offline {
+            background: #ff6b6b;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .message-display {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .settings-panel {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+        }
+
+        .slider {
+            width: 200px;
+            height: 6px;
+            border-radius: 3px;
+            background: #e9ecef;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+        }
+
+        .footer {
+            font-family: 'chalkduster';
+            text-align: center;
+            padding: 40px 20px;
+            color: rgb(255, 255, 255);
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+            
+            .stats-bar {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">Try to cheat if you dare</a>
+            <div class="challenge-text">Think you can fool us? Drink coke and come later!</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="hero">
+            <h1>Try to cheat if you dare</h1>
+            <p>An AI and God's warrior that challenges you to try fooling it with deepfakes, filters, or any manipulation!</p>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-item">
+                <span class="stat-number" id="totalAttempts">0</span>
+                <span class="stat-label">Total Attempts</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" id="caughtCheats">0</span>
+                <span class="stat-label">Caught you</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" id="successRate">0%</span>
+                <span class="stat-label">Detection Rate</span>
+            </div>
+            <div class="stat-item">
+                <span class="status-indicator" id="apiStatus"></span>
+                <span id="apiStatusText">Checking...</span>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('realtime')">🎥 Real-time Challenge</button>
+            <button class="tab" onclick="showTab('upload')">📁 Upload & Analyze</button>
+            <button class="tab" onclick="showTab('stats')">📊 Statistics</button>
+        </div>
+
+        <div id="realtime" class="tab-content active">
+            <div class="camera-section">
+                <h2> Real-time Cheat Detection Challenge</h2>
+                <p>Turn on your camera and try to fool our AI with deepfakes, filters, or any manipulation!</p>
+                
+                <div class="video-container">
+                    <video id="videoElement" autoplay muted playsinline></video>
+                    <div class="detection-overlay" id="detectionOverlay"></div>
+                </div>
+
+                <div class="controls">
+                    <button id="startCamera" class="btn btn-primary">Start Camera</button>
+                    <button id="stopCamera" class="btn btn-danger" disabled>Stop Camera</button>
+                    <button id="startDetection" class="btn btn-success" disabled>Start Detection</button>
+                    <button id="stopDetection" class="btn btn-danger" disabled>Stop Detection</button>
+                </div>
+
+                <div id="realtimeMessage" class="message-display" style="display: none;"></div>
+
+                <div class="settings-panel">
+                    <h3>Detection Settings</h3>
+                    <div class="setting-item">
+                        <label>Sensitivity Level:</label>
+                        <div>
+                            <input type="range" id="sensitivitySlider" class="slider" min="0.1" max="1.0" step="0.1" value="0.7">
+                            <span id="sensitivityValue">0.7</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="realtimeResults" class="results" style="display: none;">
+                    <h3>Live Detection Results</h3>
+                    <div id="realtimeResultsList"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="upload" class="tab-content">
+            <div class="upload-section">
+                <h2>📁 Upload Your Best Fake</h2>
+                <p>Think you have a perfect deepfake? Upload it and see if u gets hell or heaven!</p>
+
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📁</div>
+                    <h3>Drop your file here or click to browse</h3>
+                    <p>Supported formats: JPG, PNG, MP4, AVI, MOV</p>
+                    <p>Also supports your appology to God!</p>
+                    <input type="file" id="fileInput" class="file-input" accept="image/*,video/*">
+                </div>
+
+                <div class="controls">
+                    <button id="analyzeFile" class="btn btn-primary" disabled>Lessgooo!</button>
+                    <button id="clearFile" class="btn btn-danger" disabled>Flush!</button>
+                </div>
+
+                <div id="uploadMessage" class="message-display" style="display: none;"></div>
+
+                <div id="uploadResults" class="results" style="display: none;">
+                    <h3>Analysis Results</h3>
+                    <div id="uploadResultsList"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="stats" class="tab-content">
+            <div class="stats-section">
+                <h2>📊 Detection Statistics</h2>
+                <p>Let's see your sins my child!</p>
+
+                <div class="stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 30px;">
+                    <div class="result-item">
+                        <h3>🎯 Overall Performance</h3>
+                        <div class="stat-item">
+                            <span>Total Attempts: </span>
+                            <span id="statsTotal">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Caught you: </span>
+                            <span id="statsCaught">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Success Rate: </span>
+                            <span id="statsRate">0%</span>
+                        </div>
+                    </div>
+
+                    <div class="result-item">
+                        <h3>🔧 Our Status</h3>
+                        <div class="stat-item">
+                            <span>API Status: </span>
+                            <span id="systemStatus">Checking...</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Model Ready: </span>
+                            <span id="modelStatus">Checking...</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Confidence Threshold: </span>
+                            <span id="thresholdStatus">0.6</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Life Mode: </span>
+                            <span id="lifemode">God level baby!</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button id="refreshStats" class="btn btn-primary">Refresh Statistics</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>Try to cheat if you dare - Advanced AI Cheat Detection System</p>
+        <p>We ain't God, but his favourite soldier 👀</p>
+    </footer>
+
+    <script>
+        // API Configuration
+        const API_BASE = 'http://localhost:8000';
+        
+        // Global variables
+        let videoStream = null;
+        let websocket = null;
+        let isDetecting = false;
+        let selectedFile = null;
+        
+        // DOM elements
+        const videoElement = document.getElementById('videoElement');
+        const detectionOverlay = document.getElementById('detectionOverlay');
+        const startCameraBtn = document.getElementById('startCamera');
+        const stopCameraBtn = document.getElementById('stopCamera');
+        const startDetectionBtn = document.getElementById('startDetection');
+        const stopDetectionBtn = document.getElementById('stopDetection');
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const analyzeFileBtn = document.getElementById('analyzeFile');
+        const clearFileBtn = document.getElementById('clearFile');
+        
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAPIStatus();
+            setupEventListeners();
+            updateStats();
+        });
+        
+        // Event listeners
+        function setupEventListeners() {
+            startCameraBtn.addEventListener('click', startCamera);
+            stopCameraBtn.addEventListener('click', stopCamera);
+            startDetectionBtn.addEventListener('click', startDetection);
+            stopDetectionBtn.addEventListener('click', stopDetection);
+            
+            uploadArea.addEventListener('click', () => fileInput.click());
+            uploadArea.addEventListener('dragover', handleDragOver);
+            uploadArea.addEventListener('drop', handleDrop);
+            fileInput.addEventListener('change', handleFileSelect);
+            analyzeFileBtn.addEventListener('click', analyzeFile);
+            clearFileBtn.addEventListener('click', clearFile);
+            
+            document.getElementById('refreshStats').addEventListener('click', updateStats);
+            document.getElementById('sensitivitySlider').addEventListener('input', updateSensitivity);
+        }
+        
+        // Tab management
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+        
+        // API Status Check
+        async function checkAPIStatus() {
+            try {
+                const response = await fetch(`${API_BASE}/health`);
+                const data = await response.json();
+                
+                document.getElementById('apiStatus').className = 'status-indicator status-online';
+                document.getElementById('apiStatusText').textContent = 'Online';
+                
+                // Update stats from health check
+                if (data.stats) {
+                    updateStatsDisplay(data.stats);
+                }
+                
+            } catch (error) {
+                document.getElementById('apiStatus').className = 'status-indicator status-offline';
+                document.getElementById('apiStatusText').textContent = 'Offline';
+                console.error('API health check failed:', error);
+            }
+        }
+        
+        // Camera functions
+        async function startCamera() {
+            try {
+                videoStream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { width: 640, height: 480 } 
+                });
+                videoElement.srcObject = videoStream;
+                
+                startCameraBtn.disabled = true;
+                stopCameraBtn.disabled = false;
+                startDetectionBtn.disabled = false;
+                
+                showMessage('realtimeMessage', '📹 Camera started! Now click "Start Detection" to begin the challenge!', 'success');
+                
+            } catch (error) {
+                console.error('Error accessing camera:', error);
+                showMessage('realtimeMessage', '❌ Camera access denied. Please allow camera permissions and try again.', 'error');
+            }
+        }
+        
+        function stopCamera() {
+            if (videoStream) {
+                videoStream.getTracks().forEach(track => track.stop());
+                videoStream = null;
+                videoElement.srcObject = null;
+            }
+            
+            if (isDetecting) {
+                stopDetection();
+            }
+            
+            startCameraBtn.disabled = false;
+            stopCameraBtn.disabled = true;
+            startDetectionBtn.disabled = true;
+            
+            showMessage('realtimeMessage', '📹 Camera stopped.', 'info');
+        }
+        
+        // Detection functions
+        function startDetection() {
+            if (!videoStream) return;
+            
+            isDetecting = true;
+            startDetectionBtn.disabled = true;
+            stopDetectionBtn.disabled = false;
+            
+            // Connect WebSocket
+            connectWebSocket();
+            
+            showMessage('realtimeMessage', '🔍 Detection started! Try to cheat if you dare!', 'success');
+        }
+        
+        function stopDetection() {
+            isDetecting = false;
+            startDetectionBtn.disabled = false;
+            stopDetectionBtn.disabled = true;
+            
+            if (websocket) {
+                websocket.close();
+                websocket = null;
+            }
+            
+            // Clear detection overlay
+            detectionOverlay.innerHTML = '';
+            
+            showMessage('realtimeMessage', '🔍 Detection stopped.', 'info');
+        }
+        
+        // WebSocket connection
+        function connectWebSocket() {
+            const wsUrl = API_BASE.replace('http', 'ws') + '/ws/detect';
+            websocket = new WebSocket(wsUrl);
+            
+            websocket.onopen = function() {
+                console.log('WebSocket connected');
+                startFrameCapture();
+            };
+            
+            websocket.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+                if (data.type === 'detection_result') {
+                    handleDetectionResult(data.results);
+                }
+            };
+            
+            websocket.onclose = function() {
+                console.log('WebSocket disconnected');
+            };
+            
+            websocket.onerror = function(error) {
+                console.error('WebSocket error:', error);
+                showMessage('realtimeMessage', '❌ Connection error. Please try again.', 'error');
+            };
+        }
+        
+        // Frame capture for real-time detection
+        function startFrameCapture() {
+            if (!isDetecting || !websocket) return;
+            
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            function captureFrame() {
+                if (!isDetecting || !websocket) return;
+                
+                canvas.width = videoElement.videoWidth;
+                canvas.height = videoElement.videoHeight;
+                ctx.drawImage(videoElement, 0, 0);
+                
+                const dataURL = canvas.toDataURL('image/jpeg', 0.8);
+                
+                websocket.send(JSON.stringify({
+                    type: 'frame',
+                    data: dataURL,
+                    timestamp: Date.now()
+                }));
+                
+                setTimeout(captureFrame, 200); // 5 FPS
+            }
+            
+            captureFrame();
+        }
+        
+        // Handle detection results
+        function handleDetectionResult(results) {
+            // Update stats
+            updateStatsDisplay(results);
+            
+            // Show message
+            if (results.message) {
+                showMessage('realtimeMessage', results.message, results.is_cheating ? 'error' : 'success');
+            }
+            
+            // Update detection overlay
+            updateDetectionOverlay(results);
+            
+            // Update results display
+            updateRealtimeResults(results);
+        }
+        
+        // Update detection overlay
+        function updateDetectionOverlay(results) {
+            detectionOverlay.innerHTML = '';
+            
+            if (results.faces && results.faces.length > 0) {
+                const videoRect = videoElement.getBoundingClientRect();
+                const scaleX = videoRect.width / videoElement.videoWidth;
+                const scaleY = videoRect.height / videoElement.videoHeight;
+                
+                results.faces.forEach(face => {
+                    const faceBox = document.createElement('div');
+                    faceBox.className = `face-box ${face.is_cheating ? 'cheating' : ''}`;
+                    
+                    faceBox.style.left = (face.bbox[0] * scaleX) + 'px';
+                    faceBox.style.top = (face.bbox[1] * scaleY) + 'px';
+                    faceBox.style.width = (face.bbox[2] * scaleX) + 'px';
+                    faceBox.style.height = (face.bbox[3] * scaleY) + 'px';
+                    
+                    detectionOverlay.appendChild(faceBox);
+                });
+            }
+        }
+        
+        // File upload functions
+        function handleDragOver(e) {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        }
+        
+        function handleDrop(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFileSelect({ target: { files: files } });
+            }
+        }
+        
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            if (file) {
+                selectedFile = file;
+                uploadArea.innerHTML = `
+                    <div class="upload-icon">📄</div>
+                    <h3>File Selected: ${file.name}</h3>
+                    <p>Size: ${(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                `;
+                analyzeFileBtn.disabled = false;
+                clearFileBtn.disabled = false;
+            }
+        }
+        
+        function clearFile() {
+            selectedFile = null;
+            fileInput.value = '';
+            uploadArea.innerHTML = `
+                <div class="upload-icon">📁</div>
+                <h3>Drop your file here or click to browse</h3>
+                <p>Supported formats: JPG, PNG, MP4, AVI, MOV</p>
+            `;
+            analyzeFileBtn.disabled = true;
+            clearFileBtn.disabled = true;
+            document.getElementById('uploadResults').style.display = 'none';
+        }
+        
+        async function analyzeFile() {
+            if (!selectedFile) return;
+            
+            analyzeFileBtn.disabled = true;
+            showMessage('uploadMessage', '🔍 Analyzing your file... Let\'s see if you can fool our AI!', 'info');
+            
+            const formData = new FormData();
+            formData.append('file', selectedFile);
+            
+            try {
+                const endpoint = selectedFile.type.startsWith('video/') ? '/detect/video' : '/detect/image';
+                const response = await fetch(`${API_BASE}${endpoint}`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const results = await response.json();
+                
+                if (response.ok) {
+                    displayUploadResults(results);
+                    updateStatsDisplay(results);
+                } else {
+                    showMessage('uploadMessage', `❌ Error: ${results.detail}`, 'error');
+                }
+                
+            } catch (error) {
+                console.error('Upload error:', error);
+                showMessage('uploadMessage', '❌ Upload failed. Please try again.', 'error');
+            } finally {
+                analyzeFileBtn.disabled = false;
+            }
+        }
+        
+        // Display functions
+        function showMessage(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.style.display = 'block';
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                element.style.display = 'none';
+            }, 5000);
+        }
+        
+        function updateStatsDisplay(data) {
+            if (data.total_attempts !== undefined) {
+                document.getElementById('totalAttempts').textContent = data.total_attempts;
+                document.getElementById('statsTotal').textContent = data.total_attempts;
+            }
+            if (data.caught_cheats !== undefined) {
+                document.getElementById('caughtCheats').textContent = data.caught_cheats;
+                document.getElementById('statsCaught').textContent = data.caught_cheats;
+            }
+            if (data.success_rate !== undefined) {
+                document.getElementById('successRate').textContent = data.success_rate;
+                document.getElementById('statsRate').textContent = data.success_rate;
+            }
+        }
+        
+        function updateRealtimeResults(results) {
+            const resultsDiv = document.getElementById('realtimeResults');
+            const resultsList = document.getElementById('realtimeResultsList');
+            
+            if (results.faces_detected > 0) {
+                resultsDiv.style.display = 'block';
+                
+                const resultItem = document.createElement('div');
+                resultItem.className = `result-item ${results.is_cheating ? 'cheating' : 'real'}`;
+                
+                resultItem.innerHTML = `
+                    <h4>${results.is_cheating ? '🚨 Cheating Detected!' : '✅ Looks Real'}</h4>
+                    <p><strong>Confidence:</strong> ${(results.confidence * 100).toFixed(1)}%</p>
+                    <div class="confidence-bar">
+                        <div class="confidence-fill" style="width: ${results.confidence * 100}%"></div>
+                    </div>
+                    <p><strong>Faces Detected:</strong> ${results.faces_detected}</p>
+                    <p><strong>Message:</strong> ${results.message}</p>
+                    <small>Timestamp: ${new Date().toLocaleTimeString()}</small>
+                `;
+                
+                resultsList.insertBefore(resultItem, resultsList.firstChild);
+                
+                // Keep only last 5 results
+                while (resultsList.children.length > 5) {
+                    resultsList.removeChild(resultsList.lastChild);
+                }
+            }
+        }
+        
+        function displayUploadResults(results) {
+            const resultsDiv = document.getElementById('uploadResults');
+            const resultsList = document.getElementById('uploadResultsList');
+            
+            resultsDiv.style.display = 'block';
+            
+            let resultHTML = `
+                <div class="result-item ${results.is_cheating ? 'cheating' : 'real'}">
+                    <h4>${results.is_cheating ? '🚨 Cheating Detected!' : '✅ Looks Real'}</h4>
+                    <p><strong>File:</strong> ${results.filename}</p>
+                    <p><strong>Confidence:</strong> ${(results.confidence * 100).toFixed(1)}%</p>
+                    <div class="confidence-bar">
+                        <div class="confidence-fill" style="width: ${results.confidence * 100}%"></div>
+                    </div>
+                    <p><strong>Faces Detected:</strong> ${results.faces_detected}</p>
+                    <p><strong>Message:</strong> ${results.message}</p>
+            `;
+            
+            if (results.frames_analyzed) {
+                resultHTML += `
+                    <p><strong>Frames Analyzed:</strong> ${results.frames_analyzed}</p>
+                    <p><strong>Cheating Frames:</strong> ${results.cheating_frames}</p>
+                    <p><strong>Cheating Percentage:</strong> ${results.cheating_percentage.toFixed(1)}%</p>
+                `;
+            }
+            
+            resultHTML += '</div>';
+            
+            resultsList.innerHTML = resultHTML;
+            
+            showMessage('uploadMessage', results.message, results.is_cheating ? 'error' : 'success');
+        }
+        
+        async function updateStats() {
+            try {
+                const response = await fetch(`${API_BASE}/stats`);
+                const data = await response.json();
+                
+                updateStatsDisplay(data);
+                
+                document.getElementById('systemStatus').textContent = data.api_status || 'Unknown';
+                document.getElementById('modelStatus').textContent = data.model_ready ? 'Ready' : 'Not Ready';
+                document.getElementById('thresholdStatus').textContent = data.confidence_threshold || '0.6';
+                
+            } catch (error) {
+                console.error('Failed to update stats:', error);
+            }
+        }
+        
+        function updateSensitivity() {
+            const slider = document.getElementById('sensitivitySlider');
+            const value = document.getElementById('sensitivityValue');
+            value.textContent = slider.value;
+        }
+        
+        // Auto-refresh stats every 30 seconds
+        setInterval(updateStats, 30000);
+    </script>
+</body>
+</html>
