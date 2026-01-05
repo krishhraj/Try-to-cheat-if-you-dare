@@ -1,0 +1,72 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+*.egg-info/
+.eggs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Development files
+setup.py
+start_system.bat
+start_system.sh
+test_cheat_detection.py
+
+# Documentation (optional - you can include these if you want)
+# SETUP.md
+
+# Git
+.git/
+.gitignore
+
+# Vercel
+.vercel/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Docker (not needed for Vercel)
+Dockerfile
+docker-compose.yml
+
+# Frontend (if deploying separately)
+# frontend/
+
+# Browser extension
+browser-extension/
+
+# Test files
+test_*.jpg
+test_*.png
+test_*.mp4
+demo_results.jpg
+cheat_attempts/
+
+# ZIP files
+*.zip
+
