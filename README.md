@@ -255,3 +255,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **🎯 Think you can cheat our AI? Try it and find out!**
 
 **🚀 Perfect for AI/ML internship portfolios and computer vision projects!**
+
+---
+
+**About**: As a freshly 12th student, I used to think about how someone can be caught in online exams via video calls/meets. Growing up, I saw many deepfakes and watched my fellow friends believing them. This project will help detect deepfake images, videos, and detect if someone cheats or fakes themselves on virtual meetings. I PRESENT TO YOU THE TRUTH.
